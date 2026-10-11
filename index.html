@@ -43,7 +43,24 @@
         <p id="load-status" class="load-status" role="status" aria-live="polite"></p>
       </section>
 
-      <div id="list"></div>
+      <section class="list-section" aria-label="一覧">
+        <div class="list-toolbar">
+          <input
+            id="search"
+            type="search"
+            class="search"
+            placeholder="項目名で絞り込む"
+            aria-label="項目名で絞り込む"
+            autocomplete="off"
+          />
+          <div class="list-buttons">
+            <button id="restore-all" type="button" class="button secondary">全復帰</button>
+            <button id="undo" type="button" class="button secondary">元に戻す</button>
+          </div>
+          <p id="undo-label" class="undo-label"></p>
+        </div>
+        <div id="list"></div>
+      </section>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>

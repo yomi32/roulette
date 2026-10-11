@@ -1,6 +1,8 @@
 import { renderList } from './list';
 import { decodeText, formatFromName, parseItems, type Format } from './parsers';
-import { getState, loadItems, subscribe } from './store';
+import { createStore, type ListState } from './store';
+
+const store = createStore();
 
 function $<T extends HTMLElement>(id: string): T {
   const el = document.getElementById(id);
@@ -15,6 +17,10 @@ const pasteFormat = $<HTMLSelectElement>('paste-format');
 const pasteLoad = $<HTMLButtonElement>('paste-load');
 const loadStatus = $<HTMLParagraphElement>('load-status');
 const listContainer = $<HTMLDivElement>('list');
+const searchInput = $<HTMLInputElement>('search');
+const restoreAllButton = $<HTMLButtonElement>('restore-all');
+const undoButton = $<HTMLButtonElement>('undo');
+const undoLabel = $<HTMLParagraphElement>('undo-label');
 
 function showStatus(message: string, isError = false): void {
   loadStatus.textContent = message;
@@ -28,7 +34,7 @@ function loadText(text: string, format: Format, source: string): void {
     showStatus(`「${source}」から項目が見つかりませんでした`, true);
     return;
   }
-  loadItems(source, items);
+  store.loadItems(source, items);
   showStatus(`「${source}」から ${items.length} 件読み込みました`);
 }
 
@@ -96,5 +102,26 @@ pasteLoad.addEventListener('click', () => {
 });
 
 // --- 一覧 ---
-subscribe((state) => renderList(listContainer, state));
-renderList(listContainer, getState());
+function render(state: ListState): void {
+  renderList(listContainer, state, searchInput.value);
+  restoreAllButton.disabled = !state.items.some((item) => !item.enabled);
+  undoButton.disabled = state.undoLabel === null;
+  undoLabel.textContent = state.undoLabel ? `直前の操作：${state.undoLabel}` : '';
+}
+
+// ボタンは描き直しで作り直されるので、親で1回だけ受ける。
+listContainer.addEventListener('click', (e) => {
+  if (!(e.target instanceof Element)) return;
+  const button = e.target.closest<HTMLButtonElement>('button[data-action]');
+  const id = button?.dataset.id;
+  if (!button || !id) return;
+  if (button.dataset.action === 'toggle') store.toggleEnabled(id);
+  else if (button.dataset.action === 'remove') store.removeItem(id);
+});
+
+searchInput.addEventListener('input', () => render(store.getState()));
+restoreAllButton.addEventListener('click', () => store.restoreAll());
+undoButton.addEventListener('click', () => store.undo());
+
+store.subscribe(render);
+render(store.getState());
