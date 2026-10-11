@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ルーレット</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>ルーレット</h1>
+
+      <section class="input-section" aria-label="読み込み">
+        <div id="drop-zone" class="drop-zone">
+          <p>ここにファイルをドロップ（.txt / .md / .csv）</p>
+          <label class="button">
+            ファイルを選択
+            <input
+              id="file-input"
+              type="file"
+              accept=".txt,.md,.markdown,.csv,text/plain,text/markdown,text/csv"
+              hidden
+            />
+          </label>
+        </div>
+
+        <details class="paste">
+          <summary>テキストを貼り付けて読み込む</summary>
+          <textarea id="paste-text" rows="6" placeholder="1行に1項目"></textarea>
+          <div class="paste-controls">
+            <label>
+              形式
+              <select id="paste-format">
+                <option value="txt">テキスト（1行1項目）</option>
+                <option value="md">Markdown（箇条書き）</option>
+                <option value="csv">CSV（1列目＝項目、2列目＝重み）</option>
+              </select>
+            </label>
+            <button id="paste-load" type="button" class="button">読み込む</button>
+          </div>
+        </details>
+
+        <p id="load-status" class="load-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <div id="list"></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
