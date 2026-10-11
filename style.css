@@ -1,0 +1,168 @@
+:root {
+  --bg: #f7f7f8;
+  --fg: #1f2328;
+  --muted: #6b7280;
+  --surface: #ffffff;
+  --border: #d0d7de;
+  --accent: #2f6fde;
+  --accent-fg: #ffffff;
+  --error: #c0362c;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181c;
+    --fg: #e6e8eb;
+    --muted: #9aa1ab;
+    --surface: #1f2228;
+    --border: #3a3f47;
+    --accent: #5b8ff0;
+    --error: #f0766b;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 16px;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+}
+
+.button {
+  display: inline-block;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+.button:focus-within,
+.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.drop-zone {
+  padding: 20px 16px;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.drop-zone p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.drop-zone.dragover {
+  border-color: var(--accent);
+}
+
+.paste {
+  margin-top: 12px;
+}
+
+.paste summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.paste textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+}
+
+.paste-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.paste-controls select {
+  max-width: 100%;
+  min-height: 44px;
+  font: inherit;
+}
+
+.load-status {
+  min-height: 1.6em;
+  margin: 12px 0;
+}
+
+.load-status.error {
+  color: var(--error);
+}
+
+.list-group {
+  margin-top: 16px;
+}
+
+.list-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+}
+
+.item + .item {
+  border-top: 1px solid var(--border);
+}
+
+.item-label {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.item-weight {
+  color: var(--muted);
+  font-size: 0.9em;
+}
